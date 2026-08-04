@@ -1,0 +1,38 @@
+<div class="card mb-4 shadow-sm">
+  <div class="card-header bg-dark text-white fw-bold">Registrar Nuevo Ticket</div>
+  <div class="card-body">
+    <form (ngSubmit)="guardarTicket()">
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Título</label>
+        <input type="text" class="form-control" [(ngModel)]="nuevoTicket.titulo" name="titulo" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Descripción</label>
+        <textarea class="form-control" [(ngModel)]="nuevoTicket.descripcion" name="descripcion" rows="3" required></textarea>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-semibold">Prioridad</label>
+          <select class="form-select" [(ngModel)]="nuevoTicket.prioridad" name="prioridad">
+            <option value="Baja">Baja</option>
+            <option value="Media">Media</option>
+            <option value="Alta">Alta</option>
+          </select>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-semibold">Estado</label>
+          <select class="form-select" [(ngModel)]="nuevoTicket.estado" name="estado">
+            <option value="Abierto">Abierto</option>
+            <option value="En Proceso">En Proceso</option>
+            <option value="Resuelto">Resuelto</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 fw-bold">Crear Ticket</button>
+    </form>
+  </div>
+</div>
