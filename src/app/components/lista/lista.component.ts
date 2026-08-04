@@ -1,24 +1,44 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Ticket } from '../../models/ticket';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TicketService } from '../../services/ticket.service';
 
 @Component({
   selector: 'app-lista',
   standalone: true,
-  templateUrl: './lista.component.html'
+  imports: [CommonModule],
+  templateUrl: './lista.component.html',
+  styleUrl: './lista.component.css'
 })
-export class ListaComponent {
-  @Input() tickets: Ticket[] = [];
-  @Output() ticketEliminado = new EventEmitter<string>();
-  @Output() ticketActualizado = new EventEmitter<Ticket>();
+export class ListaComponent implements OnInit {
+  tickets: any[] = [];
 
-  eliminar(id?: string) {
-    if (id && confirm('¿Desea eliminar este ticket?')) {
-      this.ticketEliminado.emit(id);
-    }
+  constructor(private ticketService: TicketService) {}
+
+  ngOnInit(): void {
+    this.obtenerTickets();
   }
 
-  cambiarEstado(ticket: Ticket, nuevoEstado: any) {
-    const actualizado: Ticket = { ...ticket, estado: nuevoEstado };
-    this.ticketActualizado.emit(actualizado);
+  obtenerTickets(): void {
+    this.ticketService.getTickets().subscribe({
+      next: (data) => {
+        this.tickets = data;
+      },
+      error: (err) => {
+        console.error('Error al obtener los tickets:', err);
+      }
+    });
+  }
+
+  eliminarTicket(id: number): void {
+    if (confirm('¿Estás seguro de eliminar este ticket?')) {
+      this.ticketService.deleteTicket(id).subscribe({
+        next: () => {
+          this.obtenerTickets();
+        },
+        error: (err) => {
+          console.error('Error al eliminar el ticket:', err);
+        }
+      });
+    }
   }
 }

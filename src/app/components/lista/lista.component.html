@@ -1,47 +1,46 @@
-<div class="card shadow-sm">
-  <div class="card-header bg-secondary text-white fw-bold">Listado de Tickets</div>
-  <div class="card-body">
+<div class="container mt-4">
+  <h2>Lista de Tickets</h2>
+
+  @if (tickets && tickets.length > 0) {
     <div class="table-responsive">
-      <table class="table table-hover align-middle">
-        <thead>
+      <table class="table table-striped table-hover">
+        <thead class="table-dark">
           <tr>
+            <th>ID</th>
             <th>Título</th>
             <th>Descripción</th>
-            <th>Prioridad</th>
             <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of tickets">
-            <td><strong>{{ item.titulo }}</strong></td>
-            <td>{{ item.descripcion }}</td>
-            <td>
-              <span class="badge" 
-                [ngClass]="{
-                  'bg-success': item.prioridad === 'Baja',
-                  'bg-warning': item.prioridad === 'Media',
-                  'bg-danger': item.prioridad === 'Alta'
+          @for (item of tickets; track item.id || $index) {
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.titulo }}</td>
+              <td>{{ item.descripcion }}</td>
+              <td>
+                <span class="badge" [ngClass]="{
+                  'bg-warning': item.estado === 'PENDIENTE',
+                  'bg-info': item.estado === 'EN_PROCESO',
+                  'bg-success': item.estado === 'RESUELTO'
                 }">
-                {{ item.prioridad }}
-              </span>
-            </td>
-            <td>
-              <select class="form-select form-select-sm" [ngModel]="item.estado" (ngModelChange)="cambiarEstado(item, $event)">
-                <option value="Abierto">Abierto</option>
-                <option value="En Proceso">En Proceso</option>
-                <option value="Resuelto">Resuelto</option>
-              </select>
-            </td>
-            <td>
-              <button class="btn btn-danger btn-sm" (click)="eliminar(item._id)">Eliminar</button>
-            </td>
-          </tr>
-          <tr *ngIf="tickets.length === 0">
-            <td colspan="5" class="text-center text-muted">No hay tickets registrados.</td>
-          </tr>
+                  {{ item.estado }}
+                </span>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-danger" (click)="eliminarTicket(item.id)">
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>
-  </div>
+  } @else {
+    <div class="alert alert-info">
+      No hay tickets registrados actualmente.
+    </div>
+  }
 </div>
