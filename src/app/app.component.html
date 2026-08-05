@@ -1,22 +1,26 @@
-<nav class="navbar navbar-dark bg-dark mb-4 shadow">
-  <div class="container">
-    <span class="navbar-brand mb-0 h1">🛠️ Help Desk SPA</span>
-  </div>
-</nav>
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 
-<div class="container pb-5">
-  <app-dashboard [tickets]="tickets"></app-dashboard>
+// Importaciones con las rutas exactas a tus archivos .ts
+import { DashboardComponent } from './components/dashboard/dashboard';
+import { FormularioComponent } from './components/formulario/formulario';
+import { ListaComponent } from './components/lista/lista';
 
-  <div class="row">
-    <div class="col-md-5">
-      <app-formulario (ticketCreado)="onTicketCreado($event)"></app-formulario>
-    </div>
-    <div class="col-md-7">
-      <app-lista 
-        [tickets]="tickets" 
-        (ticketEliminado)="onTicketEliminado($event)"
-        (ticketActualizado)="onTicketActualizado($event)">
-      </app-lista>
-    </div>
-  </div>
-</div>
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    DashboardComponent,
+    FormularioComponent,
+    ListaComponent
+  ],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  title = 'help-desk-frontend';
+  tickets: any[] = [];
+}

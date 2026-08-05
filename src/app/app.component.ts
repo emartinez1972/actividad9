@@ -1,48 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { TicketService } from './services/ticket.service';
-import { Ticket } from './models/ticket';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+
+// Importamos los componentes
+import { Dashboardcomponent} from './components/dashboard/dashboard.component';
+import { FormularioComponent } from './components/formulario/formulario';
+import { ListaComponent } from './components/lista/lista';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  templateUrl: './app.component.html'
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    DashboardComponent,
+    FormularioComponent,
+    ListaComponent
+  ],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
-  tickets: Ticket[] = [];
-
-  constructor(private ticketService: TicketService) {}
-
-  ngOnInit(): void {
-    this.cargarTickets();
-  }
-
-  cargarTickets() {
-    this.ticketService.getTickets().subscribe({
-      next: (data) => this.tickets = data,
-      error: (err) => console.error('Error al cargar tickets:', err)
-    });
-  }
-
-  onTicketCreado(ticket: Ticket) {
-    this.ticketService.createTicket(ticket).subscribe({
-      next: () => this.cargarTickets(),
-      error: (err) => console.error('Error al crear ticket:', err)
-    });
-  }
-
-  onTicketEliminado(id: string) {
-    this.ticketService.deleteTicket(id).subscribe({
-      next: () => this.cargarTickets(),
-      error: (err) => console.error('Error al eliminar ticket:', err)
-    });
-  }
-
-  onTicketActualizado(ticket: Ticket) {
-    if (ticket._id) {
-      this.ticketService.updateTicket(ticket._id, ticket).subscribe({
-        next: () => this.cargarTickets(),
-        error: (err) => console.error('Error al actualizar ticket:', err)
-      });
-    }
-  }
+export class AppComponent {
+  title = 'help-desk-frontend';
+  tickets: any[] = [];
 }
