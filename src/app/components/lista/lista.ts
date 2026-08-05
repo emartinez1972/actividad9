@@ -7,7 +7,7 @@ import { TicketService } from '../../services/ticket.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './lista.component.html',
-  styles: [] // Se remueve styleUrl para evitar el error NG2008
+  styles: []
 })
 export class ListaComponent implements OnInit {
   tickets: any[] = [];
@@ -29,9 +29,10 @@ export class ListaComponent implements OnInit {
     });
   }
 
-  eliminarTicket(id: any): void {
+  // Solución al error TS2345:
+  eliminarTicket(id: number | string): void {
     if (confirm('¿Estás seguro de eliminar este ticket?')) {
-      // String(id) resuelve el error TS2345 convirtiendo el valor a string
+      // Convertimos id a String para que coincida con el tipo del servicio
       this.ticketService.deleteTicket(String(id)).subscribe({
         next: () => {
           this.obtenerTickets();

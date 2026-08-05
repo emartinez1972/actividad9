@@ -3,8 +3,8 @@ import { Ticket } from '../../models/ticket';
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
-  templateUrl: './dashboard.component.html'
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
   @Input() tickets: Ticket[] = [];
